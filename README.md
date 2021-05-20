@@ -160,7 +160,7 @@ In the pipeline, use this script:
 pipeline {
     agent any
     
-    tool {NodeJs "NodeJs"}
+    tools {nodejs "NodeJs"}
 
     stages {
         stage('Clone sources') {
