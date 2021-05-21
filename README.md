@@ -57,14 +57,20 @@ docker compose up
 
 ## Setup Jenkins
 
-[Enable access](#enable-access)
-[Install plugins](#install-plugins)
-[Finish Jenkins setup](#finish-jenkins-setup)
+[Enable access](#enable-access) | [Install plugins](#install-plugins) | [Finish Jenkins setup](#finish-jenkins-setup)
 
 
 ### Enable access
 
-To access `Jenkins` open your browser and type `http://localhost:8080`, it will request you a token to access, this token was provided on terminal that was used `docker compose up`.
+To access `Jenkins` open your browser and type `http://localhost:8080`, it will request you a token to access.
+
+![Unlock Jenkins](.github/jenkins/unlock-jenkins-page.png)
+
+This token was provided on terminal that was used `docker compose up`.
+
+![Jenkins Password](.github/jenkins/password.png)
+
+or
 
 ```console
 jenkins_1    | Please use the following password to proceed to installation:
@@ -78,12 +84,22 @@ Just copy your _Jenkins_ token and paste it.
 
 In the next page select **Select plugins to install**
 
-Then in the top of the page, select `none`, to deselect all _plugins_, the search for `git` and `pipeline`, and select both.
+![Select plugin to install](.github/jenkins/customize-jenkins.png)
+
+Then in the top of the page, select `none`, to deselect all _plugins_.
+
+![None plugins](.github/jenkins/none-plugins.png)
+
+Then search for `git` and `pipeline`, and select both.
+
+![Jenkins plugins](.github/jenkins/plugins.png)
 
 
 ### Finish Jenkins setup
 
 In the final step, just confirm Jenkins URL: `http://localhost:8080`.
+
+![Jenkins instance configuration](.github/jenkins/instance-configuration.png)
 
 ---
 
@@ -93,44 +109,104 @@ To access `SonarQube`, open your browser and type `http://localhost:9000`.
 
 Use this credentials in your first login.
 
-login: `admin`
-password: `admin`
+![Sonarqube login](.github/sonarqube/login.png)
+
+**login: `admin`**
+**password: `admin`**
 
 After that, you will be able to change the password.
+
+![Sonarqube update password](.github/sonarqube/update-password.png)
 
 ---
 
 ## Add SonarQube on Jenkins
 
-[Install plugins](#install-plugins)
-[Setup SonarQube Scanner](#setup-sonarqube-scanner)
-[Setup NodeJs](#setup-nodejs)
+[Install plugins](#install-plugins) | [Setup SonarQube Scanner](#setup-sonarqube-scanner) | [Setup NodeJs](#setup-nodejs)
 
 ### Install plugins
 
-In your `Jenkins` (http://localhost:8080), go to **Manage Jenkins > Manage Plugins > Available** and search for _sonar_.
-Select the **SonarQube Scanner**, then search for _node_, and Select the **NodeJs Plugin** and click **install without restart**.
+In your `Jenkins` (http://localhost:8080), go to **Manage Jenkins > Manage Plugins > Available**
+
+![Manage Jenkins](.github/jenkins/manage-jenkins.png)
+
+![Manage Plugins](.github/jenkins/manage-plugins.png)
+
+![Available](.github/jenkins/available-plugins.png)
+
+Search for _sonar_ and select the **SonarQube Scanner**.
+
+![SonarQube Scanner](.github/jenkins/sonar-plugin.png)
+
+Then search for _node_, and Select the **NodeJs Plugin**
+
+![NodeJs Plugin](.github/jenkins/node-plugin.png)
+
+Click **install without restart**.
+
+![Install without restart](.github/jenkins/install-plugins.png)
 
 Once `SonarQube Scanner` and `NodeJs Plugin` is installed,let's configure it!
 
 ### Setup SonarQube Scanner
 
-Go to **Manage Jenkins > Configure system** and scroll down and find **SonarQube servers** section.
+Go to **Manage Jenkins > Configure system**
 
-Click to `Add SonarQube` button. Set **Name** for the server. The **Server URL** will be `http://sonarqube:9000`. Then click to **save** on bottom of the page.
+![Manage Jenkins](.github/jenkins/manage-jenkins.png)
 
-Now, go to **Manage Jenkins > Global Tools Configuration**, scroll down and find **SonarQube Scanner**, click to `Add SonarQube Scanner`. The **name** is `SonarQubeScanner` and select any version you want.
+![Configure system](.github/jenkins/configure-system.png)
+
+Scroll down and find **SonarQube servers** section and click to `Add SonarQube` button.
+
+![SonarQube servers](.github/jenkins/sonarqube-servers.png)
+
+ Set **Name** for the server. The **Server URL** will be `http://sonarqube:9000`. Then click to **save** on bottom of the page.
+
+![Configure example](.github/jenkins/configure-example.png)
+
+Now, go to **Manage Jenkins > Global Tools Configuration**
+
+![Manage Jenkins](.github/jenkins/manage-jenkins.png)
+
+![Global Tools Configuration](.github/jenkins/global-tools-configuration.png)
+
+scroll down and find **SonarQube Scanner**, click to `Add SonarQube Scanner`. The **name** is `SonarQubeScanner` and select any version you want.
+
+![SonarQube Scanner](.github/jenkins/add-sonar-scanner.png)
+
+![Create SonarQube Scanner](.github/jenkins/create-sonar-scanner.png)
 
 ### Setup NodeJs
 
-Now, go to **Manage Jenkins > Global Tools Configuration**, scroll down and find **NodeJs**, click to `Add NodeJs`, the **name** is `NodeJs`.
+Now, go to **Manage Jenkins > Global Tools Configuration**
+
+![Manage Jenkins](.github/jenkins/manage-jenkins.png)
+
+![Global Tools Configuration](.github/jenkins/global-tools-configuration.png)
+
+Scroll down and find **NodeJs**, click to `Add NodeJs`, the **name** is `NodeJs`.
+
+![Add NodeJs](.github/jenkins/add-nodejs.png)
+
+![Create NodeJs](.github/jenkins/create-nodejs.png)
 
 ---
 
 ## Add Jenkins on SonarQube
 
-In your `SonarQube`, go to **Administration > Configuration > Webhooks**, click on `Create`, the **name** is `Jenkins` and the **URL** is `http://jenkins:8080/sonarqube-webhook/`.
+In your `SonarQube`, go to **Administration > Configuration > Webhooks**
 
+![Administration](.github/sonarqube/administration.png)
+
+![Configuration](.github/sonarqube/configuration.png)
+
+Click on `Create`
+
+![Create webhook](.github/sonarqube/create-webhook.png)
+
+The **Name** is `Jenkins` and the **URL** is `http://jenkins:8080/sonarqube-webhook/`.
+
+![Jenkins webhook](.github/sonarqube/jenkins-webhook.png)
 ---
 
 ## Setup Sonar Project Properties
@@ -152,9 +228,15 @@ sonar.scm.disabled=true
 
 # Create Jenkins Job and Run
 
-To create a new _Job_, we'll click on `New Job`, then set a name of Job, and select **Pipeline**, then click in `Ok`.
+To create a new _Job_, we'll click on `New Job` | `New Item`
 
-In the pipeline, use this script:
+![New Job](.github/jenkins/new-job.png)
+
+Then set a name of Job, and select **Pipeline**, then click in `Ok`.
+
+![Job info](.github/jenkins/job-info.png)
+
+Scroll down and find **Pipeline**, select `Pipeline script` and use this script:
 
 ```
 pipeline {
@@ -185,4 +267,68 @@ pipeline {
 }
 ```
 
-Then save it, and run `Build Now`.
+Then save it
+
+![Pipeline script](.github/jenkins/pipeline-script.png)
+
+and click `Build Now`.
+
+![Build now](.github/jenkins/build-now.png)
+
+---
+
+## SonarQube access token for Jenkins
+
+[Generate SonarQube token](#generate-sonarqube-token) | [Add token on Jenkins](#add-token-on-jenkins)
+
+### Generate SonarQube token
+
+To enable Jenkins connect to SonarQube, we need to create a token for Login.
+
+Open your SonarQube (`http://localhost:9000`).
+
+Click on your user profile, and select `My account`.
+
+![My account](.github/sonarqube/my-account.png).
+
+Then click on `Security`.
+
+![User security](.github/sonarqube/user-security.png)
+
+On `Token`, we'll generate a new token.
+
+![Generate token](.github/sonarqube/generate-token.png)
+
+On the **Token name**, you can put any name you want, for this example, we'll use `example`.
+
+![Token example](.github/sonarqube/token-example.png)
+
+Copy this token and now we'll put it on **Jenkins**
+
+### Add token on Jenkins
+
+On your **Jenkins** (`http://localhost:8080`)
+
+Go to **Manage Jenkins > Configure system**
+
+![Manage Jenkins](.github/jenkins/manage-jenkins.png)
+
+![Configure system](.github/jenkins/configure-system.png)
+
+Scroll down and find your **SonarQube Server**
+
+On **Server authentication token**, click on `Add`
+
+![Add sonarqube token](.github/jenkins/add-sonarqube-token.png)
+
+Then select `Secret text` on **kind**
+
+![Secret text](.github/jenkins/select-kind.png)
+
+The secret is the token was generate on **SonarQube** and the **ID** is the **name** of the token, in this example we'll use `sonarqube-token`, then click to `Add`.
+
+![Create Secret](.github/jenkins/create-secret.png)
+
+Now select `sonarqube-token` on **Server authentication token**,then click to **save**.
+
+![Select token](.github/jenkins/select-token.png)
